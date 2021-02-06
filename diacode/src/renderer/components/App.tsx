@@ -7,6 +7,7 @@ import {hot} from "react-hot-loader/root";
 import React, {Component} from 'react';
 
 import WindowMenuButtons from "./base/WindowMenuButtons";
+import CanvasReact from "./canvas/CanvasReact";
 
 type Props = {}
 
@@ -27,9 +28,11 @@ type State = {
 
 class App extends Component<Props, State> {
 
+
     constructor(props) {
         super(props);
   }
+
 
   render() {
     return(
@@ -44,7 +47,7 @@ class App extends Component<Props, State> {
             <div className="middle">
               <div className="middle_header"></div>
               <div className="middle_contents">
-                <h1>MIDDLE</h1>
+                <CanvasReact/>
               </div>
             </div>
             <div className="rightside">
