@@ -2,3 +2,4 @@ diacode/node_modules
 diacode/.webpack
 diacode/package-lock.json
 diacode/yarn.lock
+diacode/out

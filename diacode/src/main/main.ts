@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { app, BrowserWindow } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -11,6 +13,15 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    frame: false,
+    resizable: true,
+    minHeight: 265,
+    minWidth: 600,
+    backgroundColor: '#000',
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    }
   });
 
   // and load the index.html of the app.

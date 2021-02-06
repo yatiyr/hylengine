@@ -1,0 +1,176 @@
+@import "./colors";
+
+.header {
+    position: absolute;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    position: relative;
+    background-color: $main-bg-color;
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    min-width: 0rem;
+    min-height: 0rem;
+
+    overflow: hidden;
+}
+
+.leftside {
+    background-color: $sidebar-bg-color;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    
+
+    &_header {
+        margin: .4rem .2rem .4rem .2rem;        
+        -webkit-app-region: drag;
+        height: 3.3rem;
+        background-color: transparent;        
+    }
+
+    &_contents {
+        margin-top: -4.1rem;
+        background-color: $sidebar-bg-color;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;        
+    }
+}
+
+.middle {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    background-color: $main-bg-color;
+    &_header {
+        margin: .4rem .2rem .4rem .2rem;
+        height: 7rem;
+        -webkit-app-region: drag;
+        background-color: transparent;
+    }
+
+    &_contents {
+        margin-top: -7.8rem;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        background-color: $main-bg-color;
+
+    }
+}
+
+.rightside {
+    //padding-top: 3.3rem;
+    background-color: $sidebar-bg-color;
+    flex: 1 1 auto;
+    max-width: 20rem;
+
+    &_header {
+        margin: .4rem 13rem .4rem .2rem;        
+        -webkit-app-region: drag;
+        height: 3.3rem;
+        background-color: transparent;        
+    }
+
+    &_contents {
+        margin-top: -4.1rem;
+        background-color: $sidebar-bg-color;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;        
+    }
+}
+
+.footer {
+    flex: 0 0 auto;
+    min-height: 5rem;
+    background-color: $footer-bg-color;
+}
+
+
+.threebuttons {
+    display: flex;
+    flex: 0 0 auto;    
+    width: 13rem;
+    height: 3.3rem;
+    background-color:$threebuttons-bg-color;
+    justify-self: flex-end;
+    align-self: baseline;
+    margin-left: -13rem;
+    justify-content: stretch;
+    flex-direction: row;
+
+    &_iconContainer {
+        display: flex;
+        justify-self: center;
+        flex: 0 0 auto;
+        justify-content: center;
+        height: 1rem;
+        width: 1rem;
+    }
+
+    &_minimize {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color .15s;        
+        &:hover {
+            background-color: $threebuttons-bg-color-hover;
+        }
+
+        &_icon {
+            //padding: 2rem 1.65rem 2rem 1.65rem;            
+            height: 100%;
+            width: 100%;             
+            fill: $text-color-bright-4;
+        }
+    }
+
+    &_maximize {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color .15s;                  
+        &:hover {
+            background-color: $threebuttons-bg-color-hover;
+        }
+
+        &_icon {
+            height: 100%;
+            width: 100%;                   
+            stroke: $text-color-bright-4;
+            stroke-width: 0.2rem;
+        }
+    }
+
+    &_close {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color .15s;                     
+        &:hover {
+            background-color: $closebutton-bg-color-hover;
+        }
+
+        &_icon {
+
+            //padding: 1.8rem 1.8rem 1.8rem 1.8rem;            
+            height: 100%;
+            width: 100%;      
+            fill: $text-color-bright-4;
+        }
+    }
+}
