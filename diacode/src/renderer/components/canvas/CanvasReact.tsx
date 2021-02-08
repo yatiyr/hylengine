@@ -7,7 +7,7 @@
 import {hot} from "react-hot-loader/root";
 import React, {Component} from 'react';
 
-import {Canvas} from "../../webglCanvas/canvas";
+import {HylCanvas} from "../../webgl/hylcanvas";
 
 type Props = {}
 
@@ -26,16 +26,16 @@ type State = {
 
 
 class CanvasReact extends Component<Props, State> {
-  canvas: Canvas;
+  canvas: HylCanvas;
     constructor(props) {
         super(props);
 
-        this.canvas = new Canvas("naber");
+        this.canvas = new HylCanvas();
   }
 
   componentDidMount() {
     this.canvas.initializeCanvas();
-    this.canvas.drawCommand();
+    requestAnimationFrame(this.canvas.drawScene.bind(this.canvas));
   }
 
 
