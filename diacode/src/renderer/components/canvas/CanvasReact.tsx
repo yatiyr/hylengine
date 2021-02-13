@@ -7,7 +7,7 @@
 import {hot} from "react-hot-loader/root";
 import React, {Component} from 'react';
 
-import {HylCanvas} from "../../webgl/hylcanvas";
+import {DiacodeRenderer} from "../../webgl/DiacodeRenderer/DiacodeRenderer";
 
 type Props = {}
 
@@ -26,22 +26,24 @@ type State = {
 
 
 class CanvasReact extends Component<Props, State> {
-  canvas: HylCanvas;
+  renderer: DiacodeRenderer | null;
     constructor(props) {
         super(props);
 
-        this.canvas = new HylCanvas();
+        this.renderer = null;
   }
 
   componentDidMount() {
-    this.canvas.initializeCanvas();
-    requestAnimationFrame(this.canvas.drawScene.bind(this.canvas));
+    
+    this.renderer = new DiacodeRenderer();
+
+    requestAnimationFrame(this.renderer.render.bind(this.renderer));
   }
 
 
   render() {
     return(
-        <canvas className="hylCanvas" id="glCanvas"/>
+        <canvas className="hylCanvas" id="diacodeCanvas"/>
         )
     }
 }

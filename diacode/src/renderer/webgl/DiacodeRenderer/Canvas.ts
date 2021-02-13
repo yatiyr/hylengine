@@ -2,69 +2,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import { RectangleFactory } from './object/rectangle/rectangleFactory';
-
-export class HylCanvas {
+export class Canvas {
 
     canvasToDisplaySizeMap : any;
     resizeObserver         : any;
     canvas                 : any;
     gl                     : any;
 
-    objects : any[];
-
-    rectangleFactory : any;
-
-    rectangles : any[];
-
-
-    fps: any;
 
     constructor() {
         this.canvasToDisplaySizeMap = "";
         this.resizeObserver         = "";
         this.canvas                 = "";
         this.gl                     = "";
-        this.objects                = [];
-
-        this.rectangleFactory       = "";
-        this.rectangles = [];
-
-        this.fps = 60;
     }
 
+    resizeCanvasToDisplaySize() {
 
-    drawScene() {
-        this.resizeCanvasToDisplaySize(this.canvas);
         const [displayWidth, displayHeight] = this.canvasToDisplaySizeMap.get(this.canvas);
 
-        this.gl.viewport(0, 0, displayWidth, displayHeight);
-        this.gl.clearColor(0, 0, 0, 0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-        
-        for(var rect of this.rectangles) {
-            rect.draw();
+        const needResize = this.canvas.width  != displayWidth ||
+                           this.canvas.height != displayHeight;
+
+        if(needResize) {
+            this.canvas.width  = displayWidth;
+            this.canvas.height = displayHeight;
         }
-
-        setTimeout(() => {
-            requestAnimationFrame(this.drawScene.bind(this));            
-        }, 1000/this.fps)
-        //requestAnimationFrame(this.drawScene.bind(this));
-
-    }
-
-    
-
-    resizeCanvasToDisplaySize(canvas) {
-
-        const [displayWidth, displayHeight] = this.canvasToDisplaySizeMap.get(canvas);
-
-        const needResize = canvas.width  != displayWidth ||
-                           canvas.height != displayHeight;
-
-
-            canvas.width  = displayWidth;
-            canvas.height = displayHeight;
 
 
         return needResize;
@@ -72,7 +35,7 @@ export class HylCanvas {
 
     initializeCanvas() {
 
-        this.canvas = <HTMLCanvasElement> document.querySelector("#glCanvas");
+        this.canvas = <HTMLCanvasElement> document.querySelector("#diacodeCanvas");
         this.gl = this.canvas.getContext("webgl2");
         
         if(this.gl == null) {
@@ -80,15 +43,8 @@ export class HylCanvas {
             return;
         }
 
-        this.rectangleFactory = new RectangleFactory(this.gl);
-
         this.startObservingSizeChange();           
         this.canvasToDisplaySizeMap = new Map([[this.canvas, [this.canvas.width, this.canvas.height]]]);
-        var rect1 = this.rectangleFactory.createRectangle(10,10,10,10,
-                                                          [1, 0, 0, 1]);
-        var rect2 = this.rectangleFactory.createRectangle(50, 50, 10, 10,
-                                                          [1, 1, 0, 1]);
-        this.rectangles.push(rect1,rect2);
         
     }
 

@@ -1,4 +1,5 @@
-export const vertexShaderSource = `#version 300 es
+
+export const SimpleShader_VertSource = `#version 300 es
 
 // an attribute is an input (in) to a vertex shader.
 // It will receive data from a buffer
@@ -20,5 +21,19 @@ void main() {
   vec2 clipSpace = zeroToTwo - 1.0;
 
   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+`;
+
+export const SimpleShader_FragSource = `#version 300 es
+
+precision highp float;
+
+uniform vec4 u_color;
+
+// we need to declare an output for the fragment shader
+out vec4 outColor;
+
+void main() {
+  outColor = u_color;
 }
 `;

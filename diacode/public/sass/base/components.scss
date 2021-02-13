@@ -75,7 +75,8 @@
     //padding-top: 3.3rem;
     background-color: $sidebar-bg-color;
     flex: 1 1 auto;
-    max-width: 20rem;
+    max-width: 30rem;
+    min-width: 30rem;
 
     &_header {
         margin: .4rem 13rem .4rem .2rem;        
@@ -126,7 +127,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: background-color .15s;        
+        //transition: background-color .15s;        
         &:hover {
             background-color: $threebuttons-bg-color-hover;
         }
@@ -144,7 +145,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: background-color .15s;                  
+        //transition: background-color .15s;                  
         &:hover {
             background-color: $threebuttons-bg-color-hover;
         }
@@ -162,7 +163,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: background-color .15s;                     
+        //transition: background-color .15s;                     
         &:hover {
             background-color: $closebutton-bg-color-hover;
         }
