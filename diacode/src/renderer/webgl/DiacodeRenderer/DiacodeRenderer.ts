@@ -9,8 +9,9 @@ import {World} from './World';
 // Drawable Objects may completely take over shader objects
 
 import { SimpleShaderProgram } from "./ShaderPrograms/SimpleShaderProgram";
+import { ThreeDObjectShaderProgram } from "./ShaderPrograms/ThreeDObjectShaderProgram";
 import { Rectangle } from "./Object/Rectangle";
-
+import { Rectangle3D } from "./Object/Rectangle3D";
 
 
 export class DiacodeRenderer {
@@ -33,7 +34,7 @@ export class DiacodeRenderer {
         this.canvas = new Canvas();
         this.canvas.initializeCanvas();
 
-        this.simpleShaderProgram = new SimpleShaderProgram(this.canvas.gl);
+        this.simpleShaderProgram = new ThreeDObjectShaderProgram(this.canvas.gl);
         
         this.fps = 144;
 
@@ -47,16 +48,19 @@ export class DiacodeRenderer {
 
         var emreninDikdortgeni = new Rectangle(500, 100, 200, 100, [0.203, 0.917, 0.738, 1]);
 
-        this.addPrimitive(rect1);
-        this.addPrimitive(rect2);
-        this.addPrimitive(rect3);
-        this.addPrimitive(rect4);
-        this.addPrimitive(emreninDikdortgeni);
+        var rec3D = new Rectangle3D(100,200, 1, 50, 90, 20, [0,0,0]);
+
+        //this.addPrimitive(rect1);
+        //this.addPrimitive(rect2);
+        //this.addPrimitive(rect3);
+        //this.addPrimitive(rect4);
+        //this.addPrimitive(emreninDikdortgeni);
+        this.addPrimitive(rec3D);
 
     }
 
     addPrimitive(primitive) {
-        primitive.bindToRenderer(this.canvas.gl, this.simpleShaderProgram);
+        primitive.bindToRenderer(this.canvas.gl, this.simpleShaderProgram, this.canvas);
         this.world.addPrimitive(primitive);
     }
 
@@ -69,6 +73,9 @@ export class DiacodeRenderer {
         this.canvas.gl.clearColor(1, 1, 1, 1);
         this.canvas.gl.clear(this.canvas.gl.COLOR_BUFFER_BIT | this.canvas.gl.DEPTH_BUFFER_BIT);
         
+        this.canvas.gl.enable(this.canvas.gl.DEPTH_TEST);
+        this.canvas.gl.enable(this.canvas.gl.CULL_FACE);
+
 
         this.world.draw();
 

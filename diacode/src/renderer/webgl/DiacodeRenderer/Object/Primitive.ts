@@ -4,15 +4,18 @@ import {ShaderProgram} from "../ShaderProgram";
 export abstract class Primitive {
 
     gl                        : any;
-    sprogram                   : any;
+    sprogram                  : any;
+
+    canvas                    : any;
 
     constructor() {
         this.gl = "";
         this.sprogram = "";
     }
 
-    bindToRenderer(gl, program) {
+    bindToRenderer(gl, program, canvas) {
         this.gl = gl;
         this.sprogram = program;
+        this.canvas   = canvas;
     }
 }
