@@ -41,26 +41,14 @@ export class DiacodeRenderer {
         // TODO: Work on Progress
         this.world = new World();
 
-        var rect1 = new Rectangle(100,200,30,60,[0,0,1,1]);
-        var rect2 = new Rectangle(10,200,70,60,[1,0,1,1]);
-        var rect3 = new Rectangle(300,200,90,60,[1,0,0,1]);
-        var rect4 = new Rectangle(500,100,100,60,[0,1,0,1]);
+        var rec3D = new Rectangle3D(100,100, 1, 0.5, 0.5, 220, [0,0,0]);
 
-        var emreninDikdortgeni = new Rectangle(500, 100, 200, 100, [0.203, 0.917, 0.738, 1]);
-
-        var rec3D = new Rectangle3D(100,200, 1, 50, 90, 20, [0,0,0]);
-
-        //this.addPrimitive(rect1);
-        //this.addPrimitive(rect2);
-        //this.addPrimitive(rect3);
-        //this.addPrimitive(rect4);
-        //this.addPrimitive(emreninDikdortgeni);
         this.addPrimitive(rec3D);
 
     }
 
     addPrimitive(primitive) {
-        primitive.bindToRenderer(this.canvas.gl, this.simpleShaderProgram, this.canvas);
+        primitive.bindToRenderer(this.canvas.gl, this.simpleShaderProgram);
         this.world.addPrimitive(primitive);
     }
 
@@ -74,7 +62,7 @@ export class DiacodeRenderer {
         this.canvas.gl.clear(this.canvas.gl.COLOR_BUFFER_BIT | this.canvas.gl.DEPTH_BUFFER_BIT);
         
         this.canvas.gl.enable(this.canvas.gl.DEPTH_TEST);
-        this.canvas.gl.enable(this.canvas.gl.CULL_FACE);
+        //this.canvas.gl.enable(this.canvas.gl.CULL_FACE);
 
 
         this.world.draw();

@@ -13,9 +13,8 @@ export abstract class Primitive {
         this.sprogram = "";
     }
 
-    bindToRenderer(gl, program, canvas) {
+    bindToRenderer(gl, program) {
         this.gl = gl;
         this.sprogram = program;
-        this.canvas   = canvas;
     }
 }

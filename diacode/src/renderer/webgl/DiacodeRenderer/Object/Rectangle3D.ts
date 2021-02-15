@@ -18,6 +18,8 @@ export class Rectangle3D extends Primitive {
 
     color   : number[];
 
+    translationMat : mat4;
+
     constructor(x,
                 y,
                 z,
@@ -38,10 +40,15 @@ export class Rectangle3D extends Primitive {
 
         this.color   = color;
 
+        this.translationMat = mat4.create();
+
+        mat4.translate(this.translationMat, this.translationMat, [.2, .5, -2]);
+        mat4.scale(this.translationMat, this.translationMat, [0.25, 0.25, 0.25]);
+
     }
 
-    bindToRenderer(gl, program, canvas) {
-        super.bindToRenderer(gl, program, canvas);
+    bindToRenderer(gl, program) {
+        super.bindToRenderer(gl, program);
 
         this.gl.bindVertexArray(this.sprogram.vao);
         this.gl.enableVertexAttribArray(this.sprogram.positionAttributeLocation);
@@ -76,14 +83,25 @@ export class Rectangle3D extends Primitive {
       this.gl.useProgram(this.sprogram.program);
       this.gl.bindVertexArray(this.sprogram.vao);
 
-      var mat = mat4.create();
+      var projectionmat = mat4.create();
 
-      const [displayWidth, displayHeight] = this.canvas.canvasToDisplaySizeMap.get(this.canvas.canvas);
+      mat4.perspective(projectionmat,
+        glMatrix.toRadian(75),
+        this.gl.canvas.width/this.gl.canvas.height,
+        1e-4,
+        1e4
+      );
 
-      mat4.perspective(mat, glMatrix.toRadian(120), displayWidth/displayHeight,
-      0, 100);
+      console.log(this.gl.canvas.width, this.gl.canvas.height);
 
-      this.gl.uniformMatrix4fv(this.sprogram.matrixLocation, false, mat);
+      const finalMatrix = mat4.create();
+
+
+      mat4.rotateX(this.translationMat, this.translationMat, Math.PI/2 / 360);
+      mat4.mul(finalMatrix, projectionmat, this.translationMat);
+
+
+      this.gl.uniformMatrix4fv(this.sprogram.matrixLocation, false, finalMatrix);
 
       var primitiveType = this.gl.TRIANGLES;
       var offset = 0;
@@ -98,57 +116,61 @@ export class Rectangle3D extends Primitive {
       this.z = z;
     }
 
+
+
+
     setGeometry() {
         this.gl.bufferData(
             this.gl.ARRAY_BUFFER,
             new Float32Array([
-                // front face
-                0         ,   0           ,  0,
-                0         ,   -this.height,  0,
-                this.width,   0           ,  0,
-                this.width,   0           ,  0,
-                0         ,   -this.height,  0,
-                this.width,   -this.height,  0,
-      
-                // back face
-                0         ,   0           ,  this.depth,
-                this.width,   0           ,  this.depth,
-                0         ,   -this.height,  this.depth,
-                this.width,   0           ,  this.depth,
-                this.width,   -this.height,  this.depth,
-                0         ,   -this.height,  this.depth,                
-      
-                // middle rung front
-                0         ,   -this.height,  0,
-                0         ,   -this.height,  this.depth,
-                this.width,   -this.height,  0,
-                this.width,   -this.height,  0,
-                0         ,   -this.height,  this.depth,
-                this.width,   -this.height,  this.depth,
-      
-                // left column back
-                0         ,   0           ,  0,
-                this.width,   0           ,  0,
-                0         ,   0           ,  this.depth,
-                this.width,   0           ,  0,
-                this.width,   0           ,  this.depth,
-                0         ,   0           ,  this.depth,                
-      
-                // top rung back
-                this.width,   -this.height,  0,
-                this.width,   -this.height,  this.depth,
-                this.width,   0           ,  0,
-                this.width,   0           ,  0,
-                this.width,   -this.height,  this.depth,
-                this.width,   0           ,  this.depth,
-      
-                // middle rung back
-                0         ,   -this.height,  this.depth,
-                0         ,   -this.height,  0,
-                0         ,   0           ,  0,
-                0         ,   0           ,  0,
-                0         ,   0           ,  this.depth,
-                0         ,   -this.height,  this.depth,
+
+              // Front
+              0.5, 0.5, 0.5,
+              0.5, -.5, 0.5,
+              -.5, 0.5, 0.5,
+              -.5, 0.5, 0.5,
+              0.5, -.5, 0.5,
+              -.5, -.5, 0.5,
+
+              // Left
+              -.5, 0.5, 0.5,
+              -.5, -.5, 0.5,
+              -.5, 0.5, -.5,
+              -.5, 0.5, -.5,
+              -.5, -.5, 0.5,
+              -.5, -.5, -.5,
+
+              // Back
+              -.5, 0.5, -.5,
+              -.5, -.5, -.5,
+              0.5, 0.5, -.5,
+              0.5, 0.5, -.5,
+              -.5, -.5, -.5,
+              0.5, -.5, -.5,
+
+              // Right
+              0.5, 0.5, -.5,
+              0.5, -.5, -.5,
+              0.5, 0.5, 0.5,
+              0.5, 0.5, 0.5,
+              0.5, -.5, 0.5,
+              0.5, -.5, -.5,
+
+              // Top
+              0.5, 0.5, 0.5,
+              0.5, 0.5, -.5,
+              -.5, 0.5, 0.5,
+              -.5, 0.5, 0.5,
+              0.5, 0.5, -.5,
+              -.5, 0.5, -.5,
+
+              // Bottom
+              0.5, -.5, 0.5,
+              0.5, -.5, -.5,
+              -.5, -.5, 0.5,
+              -.5, -.5, 0.5,
+              0.5, -.5, -.5,
+              -.5, -.5, -.5,
             ]),
             this.gl.STATIC_DRAW);
     }
@@ -166,36 +188,36 @@ export class Rectangle3D extends Primitive {
               200,  70, 120,
       
                 // top rung front
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
+              100,  70, 120,
+              100,  70, 120,
+              100,  70, 120,
+              100,  70, 120,
+              100,  70, 120,
+              100,  70, 120,
       
                 // middle rung front
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
-              200,  70, 120,
+              50,  70, 120,
+              50,  70, 120,
+              50,  70, 120,
+              50,  70, 120,
+              50,  70, 120,
+              50,  70, 120,
       
                 // left column back
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
+              80, 170, 200,
+              80, 170, 200,
+              80, 170, 200,
+              80, 170, 200,
+              80, 170, 200,
+              80, 170, 200,
       
                 // top rung back
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
-              80, 70, 200,
+              80, 70, 100,
+              80, 70, 100,
+              80, 70, 100,
+              80, 70, 100,
+              80, 70, 100,
+              80, 70, 100,
       
                 // middle rung back
               80, 70, 200,
